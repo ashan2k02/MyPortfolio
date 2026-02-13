@@ -4,6 +4,12 @@ import { FiGithub, FiExternalLink } from 'react-icons/fi';
 import { FaReact, FaNodeJs, FaFigma } from 'react-icons/fa';
 import { SiTailwindcss, SiMongodb, SiTypescript, SiNextdotjs } from 'react-icons/si';
 
+// Import images
+import ieeeProjectImg from '../assets/images/ieee-project.png';
+import portfolioImg from '../assets/images/portfolio_project.png';
+import agrivisionImg from '../assets/images/uiux_agrivision.png';
+import ieeeUIImg from '../assets/images/uiux_ieee.png';
+
 const Projects = () => {
     const ref = useRef(null);
     const isInView = useInView(ref, { once: true, margin: "-100px" });
@@ -35,7 +41,7 @@ const Projects = () => {
         {
             title: 'IEEE RUSL Website',
             description: 'Full-stack official website for IEEE Student Branch at Rajarata University of Sri Lanka. Modern, responsive design with event management and member portal.',
-            image: 'src/assets/images/ieee-project.png',
+            image: ieeeProjectImg,
             tags: ['React', 'Next.js', 'Node.js', 'MongoDB'],
             techIcons: [<FaReact />, <SiNextdotjs />, <FaNodeJs />, <SiMongodb />],
             github: 'https://github.com/ashan2k02',
@@ -45,7 +51,7 @@ const Projects = () => {
         {
             title: 'Portfolio Website',
             description: 'Personal portfolio website showcasing projects and skills with custom cursor, code rain effects, and premium animations built with React and Tailwind CSS.',
-            image: 'src/assets/images/portfolio_project.png',
+            image: portfolioImg,
             tags: ['React', 'Tailwind', 'Framer Motion', 'Vite'],
             techIcons: [<FaReact />, <SiTailwindcss />],
             github: 'https://github.com/ashan2k02/MyPortfolio',
@@ -55,7 +61,7 @@ const Projects = () => {
         {
             title: 'AgriVision',
             description: 'Agricultural technology UI/UX design focusing on farm management and crop monitoring solutions with modern, user-friendly interfaces.',
-            image: 'src/assets/images/uiux_agrivision.png',
+            image: agrivisionImg,
             tags: ['Figma', 'UI Design', 'UX Design', 'AgriTech'],
             techIcons: [<FaFigma />],
             github: '',
@@ -65,7 +71,7 @@ const Projects = () => {
         {
             title: 'UI/UX Design For IEEE RUSL',
             description: 'Modern user interface and experience design showcasing clean layouts, intuitive navigation, and aesthetic appeal created in Figma.',
-            image: 'src/assets/images/uiux_ieee.png',
+            image: ieeeUIImg,
             tags: ['Figma', 'UI Design', 'UX Design', 'Prototyping'],
             techIcons: [<FaFigma />],
             github: '',

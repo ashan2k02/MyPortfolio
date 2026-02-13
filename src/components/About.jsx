@@ -2,6 +2,7 @@ import { motion } from 'framer-motion';
 import { useInView } from 'framer-motion';
 import { useRef } from 'react';
 import { FiAward, FiBook, FiHeart, FiCode } from 'react-icons/fi';
+import groupImg from '../assets/images/group.jpg';
 
 const About = () => {
     const ref = useRef(null);
@@ -36,7 +37,7 @@ const About = () => {
                     >
                         <div className="relative rounded-2xl overflow-hidden shadow-2xl">
                             <img
-                                src="src/assets/images/group.jpg"
+                                src={groupImg}
                                 alt="About Me"
                                 className="w-full h-auto"
                             />
