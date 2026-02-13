@@ -1,82 +1,89 @@
 import { motion, useInView } from 'framer-motion';
 import { useRef, useState } from 'react';
 import { FiGithub, FiExternalLink } from 'react-icons/fi';
-import { FaReact, FaNodeJs } from 'react-icons/fa';
+import { FaReact, FaNodeJs, FaFigma } from 'react-icons/fa';
 import { SiTailwindcss, SiMongodb, SiTypescript, SiNextdotjs } from 'react-icons/si';
 
 const Projects = () => {
     const ref = useRef(null);
     const isInView = useInView(ref, { once: true, margin: "-100px" });
     const [filter, setFilter] = useState('All');
+    const [showConfirmModal, setShowConfirmModal] = useState(false);
+    const [selectedProjectUrl, setSelectedProjectUrl] = useState('');
+
+    const handleProjectClick = (url) => {
+        if (url) {
+            setSelectedProjectUrl(url);
+            setShowConfirmModal(true);
+        }
+    };
+
+    const confirmVisit = () => {
+        if (selectedProjectUrl) {
+            window.open(selectedProjectUrl, '_blank', 'noopener,noreferrer');
+        }
+        setShowConfirmModal(false);
+        setSelectedProjectUrl('');
+    };
+
+    const cancelVisit = () => {
+        setShowConfirmModal(false);
+        setSelectedProjectUrl('');
+    };
 
     const projects = [
         {
             title: 'IEEE RUSL Website',
-            description: 'Official website for IEEE Student Branch at Rajarata University of Sri Lanka. Modern, responsive design with event management and member portal.',
+            description: 'Full-stack official website for IEEE Student Branch at Rajarata University of Sri Lanka. Modern, responsive design with event management and member portal.',
             image: 'src/assets/images/ieee-project.png',
-            tags: ['React', 'Next.js', 'Tailwind', 'TypeScript'],
-            techIcons: [<FaReact />, <SiNextdotjs />, <SiTailwindcss />, <SiTypescript />],
+            tags: ['React', 'Next.js', 'Node.js', 'MongoDB'],
+            techIcons: [<FaReact />, <SiNextdotjs />, <FaNodeJs />, <SiMongodb />],
             github: 'https://github.com/ashan2k02',
             demo: 'https://ieee-rusl-frontend.vercel.app/',
-            category: 'Full Stack'
-        },
-        {
-            title: 'Task Management App',
-            description: 'A modern task management application with drag-and-drop functionality and real-time updates.',
-            image: '/api/placeholder/600/400',
-            tags: ['React', 'TypeScript', 'Tailwind'],
-            techIcons: [<FaReact />, <SiTypescript />, <SiTailwindcss />],
-            github: 'https://github.com',
-            demo: 'https://demo.com',
-            category: 'Frontend'
-        },
-        {
-            title: 'Blog Platform',
-            description: 'A Next.js-based blog platform with markdown support, commenting system, and SEO optimization.',
-            image: '/api/placeholder/600/400',
-            tags: ['Next.js', 'TypeScript', 'Tailwind'],
-            techIcons: [<SiNextdotjs />, <SiTypescript />, <SiTailwindcss />],
-            github: 'https://github.com',
-            demo: 'https://demo.com',
-            category: 'Full Stack'
-        },
-        {
-            title: 'Weather Dashboard',
-            description: 'A responsive weather application that displays current weather and forecasts using external APIs.',
-            image: '/api/placeholder/600/400',
-            tags: ['React', 'Tailwind', 'API'],
-            techIcons: [<FaReact />, <SiTailwindcss />],
-            github: 'https://github.com',
-            demo: 'https://demo.com',
-            category: 'Frontend'
+            category: ['Frontend', 'Backend', 'Full Stack']
         },
         {
             title: 'Portfolio Website',
-            description: 'A modern, responsive portfolio website built with React and Tailwind CSS featuring dark mode.',
-            image: '/api/placeholder/600/400',
-            tags: ['React', 'Tailwind', 'Framer Motion'],
+            description: 'Personal portfolio website showcasing projects and skills with custom cursor, code rain effects, and premium animations built with React and Tailwind CSS.',
+            image: 'src/assets/images/portfolio_project.png',
+            tags: ['React', 'Tailwind', 'Framer Motion', 'Vite'],
             techIcons: [<FaReact />, <SiTailwindcss />],
-            github: 'https://github.com',
-            demo: 'https://demo.com',
+            github: 'https://github.com/ashan2k02/MyPortfolio',
+            demo: '',
             category: 'Frontend'
         },
         {
-            title: 'Social Media API',
-            description: 'RESTful API for a social media platform with authentication, posts, comments, and likes.',
-            image: '/api/placeholder/600/400',
-            tags: ['Node.js', 'MongoDB', 'Express'],
-            techIcons: [<FaNodeJs />, <SiMongodb />],
-            github: 'https://github.com',
-            demo: 'https://demo.com',
-            category: 'Backend'
+            title: 'AgriVision',
+            description: 'Agricultural technology UI/UX design focusing on farm management and crop monitoring solutions with modern, user-friendly interfaces.',
+            image: 'src/assets/images/uiux_agrivision.png',
+            tags: ['Figma', 'UI Design', 'UX Design', 'AgriTech'],
+            techIcons: [<FaFigma />],
+            github: '',
+            demo: 'https://www.figma.com/design/eq5jQSj2busACaxYJqxkLw/AgriVision?node-id=0-1&t=HFfvssBJsJhHgnJ4-1',
+            category: 'UI/UX'
+        },
+        {
+            title: 'UI/UX Design For IEEE RUSL',
+            description: 'Modern user interface and experience design showcasing clean layouts, intuitive navigation, and aesthetic appeal created in Figma.',
+            image: 'src/assets/images/uiux_ieee.png',
+            tags: ['Figma', 'UI Design', 'UX Design', 'Prototyping'],
+            techIcons: [<FaFigma />],
+            github: '',
+            demo: 'https://www.figma.com/design/R88RphjOErn5KbtDc0XffB/Untitled?node-id=0-1&t=vhRoidlB6UR1yKNu-1',
+            category: 'UI/UX'
         }
     ];
 
-    const categories = ['All', 'Frontend', 'Backend', 'Full Stack'];
+    const categories = ['All', 'Frontend', 'Backend', 'Full Stack', 'UI/UX'];
 
     const filteredProjects = filter === 'All'
         ? projects
-        : projects.filter(project => project.category === filter);
+        : projects.filter(project => {
+            if (Array.isArray(project.category)) {
+                return project.category.includes(filter);
+            }
+            return project.category === filter;
+        });
 
     return (
         <section id="projects" ref={ref} className="bg-white dark:bg-gray-900 py-20">
@@ -129,7 +136,8 @@ const Projects = () => {
                             animate={isInView ? { opacity: 1, y: 0 } : {}}
                             transition={{ duration: 0.6, delay: 0.4 + index * 0.1 }}
                             whileHover={{ y: -10, scale: 1.02 }}
-                            className="card overflow-hidden group perspective"
+                            className="card overflow-hidden group perspective cursor-pointer"
+                            onClick={() => project.demo && handleProjectClick(project.demo)}
                         >
                             {/* Project Image */}
                             <div className="relative overflow-hidden h-48">
@@ -142,28 +150,32 @@ const Projects = () => {
                                 />
                                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
                                     <div className="flex gap-3">
-                                        <motion.a
-                                            href={project.github}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            whileHover={{ scale: 1.2, rotate: 360 }}
-                                            whileTap={{ scale: 0.9 }}
-                                            className="p-2 bg-white rounded-full hover:bg-primary-500 hover:text-white transition-all"
-                                            onClick={(e) => e.stopPropagation()}
-                                        >
-                                            <FiGithub className="w-5 h-5" />
-                                        </motion.a>
-                                        <motion.a
-                                            href={project.demo}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            whileHover={{ scale: 1.2, rotate: 360 }}
-                                            whileTap={{ scale: 0.9 }}
-                                            className="p-2 bg-white rounded-full hover:bg-primary-500 hover:text-white transition-all"
-                                            onClick={(e) => e.stopPropagation()}
-                                        >
-                                            <FiExternalLink className="w-5 h-5" />
-                                        </motion.a>
+                                        {project.github && (
+                                            <motion.a
+                                                href={project.github}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                whileHover={{ scale: 1.2, rotate: 360 }}
+                                                whileTap={{ scale: 0.9 }}
+                                                className="p-2 bg-white rounded-full hover:bg-primary-500 hover:text-white transition-all"
+                                                onClick={(e) => e.stopPropagation()}
+                                            >
+                                                <FiGithub className="w-5 h-5" />
+                                            </motion.a>
+                                        )}
+                                        {project.demo && (
+                                            <motion.button
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    handleProjectClick(project.demo);
+                                                }}
+                                                whileHover={{ scale: 1.2, rotate: 360 }}
+                                                whileTap={{ scale: 0.9 }}
+                                                className="p-2 bg-white rounded-full hover:bg-primary-500 hover:text-white transition-all"
+                                            >
+                                                <FiExternalLink className="w-5 h-5" />
+                                            </motion.button>
+                                        )}
                                     </div>
                                 </div>
                             </div>
@@ -229,6 +241,50 @@ const Projects = () => {
                     </a>
                 </motion.div>
             </div>
+
+            {/* Confirmation Modal */}
+            {showConfirmModal && (
+                <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4" onClick={cancelVisit}>
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.9 }}
+                        onClick={(e) => e.stopPropagation()}
+                        className="bg-white dark:bg-gray-900 rounded-2xl shadow-2xl p-8 max-w-md w-full"
+                    >
+                        <div className="text-center">
+                            <div className="w-16 h-16 bg-primary-100 dark:bg-primary-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <FiExternalLink className="w-8 h-8 text-primary-500" />
+                            </div>
+                            <h3 className="text-2xl font-bold mb-3 text-gray-900 dark:text-white">
+                                Visit External Project?
+                            </h3>
+                            <p className="text-gray-600 dark:text-gray-400 mb-6">
+                                You're about to leave this site and visit an external project. Continue?
+                            </p>
+                            <div className="flex gap-3 justify-center">
+                                <motion.button
+                                    onClick={cancelVisit}
+                                    whileHover={{ scale: 1.05 }}
+                                    whileTap={{ scale: 0.95 }}
+                                    className="px-6 py-3 rounded-lg border-2 border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors font-medium text-gray-700 dark:text-gray-300"
+                                >
+                                    Cancel
+                                </motion.button>
+                                <motion.button
+                                    onClick={confirmVisit}
+                                    whileHover={{ scale: 1.05 }}
+                                    whileTap={{ scale: 0.95 }}
+                                    className="px-6 py-3 rounded-lg bg-primary-500 hover:bg-primary-600 transition-colors font-medium text-white flex items-center gap-2"
+                                >
+                                    Visit Project
+                                    <FiExternalLink className="w-4 h-4" />
+                                </motion.button>
+                            </div>
+                        </div>
+                    </motion.div>
+                </div>
+            )}
         </section>
     );
 };

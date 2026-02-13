@@ -2,9 +2,11 @@ import { motion, useInView } from 'framer-motion';
 import { useRef, useState } from 'react';
 import { FiMail, FiPhone, FiMapPin, FiSend } from 'react-icons/fi';
 import { FaGithub, FaLinkedin, FaTwitter } from 'react-icons/fa';
+import emailjs from '@emailjs/browser';
 
 const Contact = () => {
     const ref = useRef(null);
+    const formRef = useRef(null);
     const isInView = useInView(ref, { once: true, margin: "-100px" });
 
     const [formData, setFormData] = useState({
@@ -26,17 +28,50 @@ const Contact = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setIsSubmitting(true);
+        setSubmitStatus(null);
 
-        // Simulate form submission
-        setTimeout(() => {
-            setIsSubmitting(false);
+        try {
+            // EmailJS configuration
+            const serviceID = 'service_iutx6ml';
+            const templateID = 'template_6b11q8b'; // Main template (to you)
+            const autoReplyTemplateID = 'template_me0dn2n'; // Auto-reply template (to visitor)
+            const publicKey = 'yha14yxlEihvxSEOi';
+
+            // Send email to you (the owner)
+            await emailjs.sendForm(
+                serviceID,
+                templateID,
+                formRef.current,
+                publicKey
+            );
+
+            // Send auto-reply to the visitor
+            await emailjs.send(
+                serviceID,
+                autoReplyTemplateID,
+                {
+                    to_email: formData.email,
+                    to_name: formData.name,
+                },
+                publicKey
+            );
+
             setSubmitStatus('success');
             setFormData({ name: '', email: '', message: '' });
 
             setTimeout(() => {
                 setSubmitStatus(null);
-            }, 3000);
-        }, 2000);
+            }, 5000);
+        } catch (error) {
+            console.error('Email sending failed:', error);
+            setSubmitStatus('error');
+
+            setTimeout(() => {
+                setSubmitStatus(null);
+            }, 5000);
+        } finally {
+            setIsSubmitting(false);
+        }
     };
 
     const contactInfo = [
@@ -170,7 +205,7 @@ const Contact = () => {
                             Send a Message
                         </h3>
 
-                        <form onSubmit={handleSubmit} className="space-y-6">
+                        <form ref={formRef} onSubmit={handleSubmit} className="space-y-6">
                             <div>
                                 <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                                     Your Name
@@ -246,7 +281,16 @@ const Contact = () => {
                                     animate={{ opacity: 1, y: 0 }}
                                     className="p-4 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 rounded-lg text-center"
                                 >
-                                    Message sent successfully! I'll get back to you soon.
+                                    ✅ Message sent successfully! I'll get back to you soon.
+                                </motion.div>
+                            )}
+                            {submitStatus === 'error' && (
+                                <motion.div
+                                    initial={{ opacity: 0, y: -10 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    className="p-4 bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400 rounded-lg text-center"
+                                >
+                                    ❌ Failed to send message. Please try again or contact me directly via email.
                                 </motion.div>
                             )}
                         </form>

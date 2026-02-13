@@ -21,6 +21,7 @@ const Navbar = () => {
         { name: 'About', href: '#about' },
         { name: 'Skills', href: '#skills' },
         { name: 'Projects', href: '#projects' },
+        { name: 'Certificates', href: '#certificates' },
         { name: 'Experience', href: '#experience' },
         { name: 'Contact', href: '#contact' },
     ];
@@ -50,7 +51,7 @@ const Navbar = () => {
                         whileHover={{ scale: 1.05 }}
                         className="text-2xl font-bold bg-gradient-to-r from-primary-500 to-blue-600 bg-clip-text text-transparent"
                     >
-                        Portfolio
+                        Ashan's Portfolio
                     </motion.div>
 
                     {/* Desktop Navigation */}
