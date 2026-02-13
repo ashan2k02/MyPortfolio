@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { FiGithub, FiLinkedin, FiMail, FiArrowDown } from 'react-icons/fi';
 import CodeRain from './CodeRain';
+import profileImg from '../assets/images/profile.jpg';
 
 const Hero = () => {
     const handleScrollToSection = (sectionId) => {
@@ -135,7 +136,7 @@ const Hero = () => {
                             >
                                 <div className="w-full h-full rounded-full bg-gray-300 dark:bg-gray-700 flex items-center justify-center overflow-hidden">
                                     <img
-                                        src="src/assets/images/profile.jpg"
+                                        src={profileImg}
                                         alt="Profile"
                                         className="w-full h-full object-cover"
                                     />
