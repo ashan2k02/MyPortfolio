@@ -31,11 +31,11 @@ const Contact = () => {
         setSubmitStatus(null);
 
         try {
-            // EmailJS configuration
-            const serviceID = 'service_iutx6ml';
-            const templateID = 'template_6b11q8b'; // Main template (to you)
-            const autoReplyTemplateID = 'template_me0dn2n'; // Auto-reply template (to visitor)
-            const publicKey = 'yha14yxlEihvxSEOi';
+            // EmailJS configuration from environment variables
+            const serviceID = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+            const templateID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+            const autoReplyTemplateID = import.meta.env.VITE_EMAILJS_AUTOREPLY_TEMPLATE_ID;
+            const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
 
             // Send email to you (the owner)
             await emailjs.sendForm(
